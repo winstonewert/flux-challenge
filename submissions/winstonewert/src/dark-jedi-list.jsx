@@ -53,14 +53,6 @@ class DarkJediList extends React.Component {
 			</div>
 		</section>
 	}
-
-	upClicked() {
-		this.props.dispatch({type: "UP_CLICKED"});
-	}
-
-	downClicked() {
-		this.props.dispatch({type: "DOWN_CLICKED"});
-	}
 }
 
 function mapStateToProps(state) {

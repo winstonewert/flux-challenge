@@ -2,21 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import Root from './root';
-import { compose, createStore, applyMiddleware } from 'redux';
+import { compose, createStore} from 'redux';
 import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-import { serverMiddleware} from './server'
+import { configureServer } from './server'
 import '../../../styles.css'
 import _ from 'lodash'
 import reducer from './reducer'
 
 const finalCreateStore = compose(
-	applyMiddleware(serverMiddleware),		
 	devTools(),
 	persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
 )(createStore);
 
 const store = finalCreateStore(reducer);
+
+configureServer(store);
 
 ReactDOM.render(
 	<div>		

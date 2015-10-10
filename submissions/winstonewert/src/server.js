@@ -16,7 +16,7 @@ function missingDarkJedi(state) {
 	}
 }
 
-export function serverMiddleware(store) {
+export function configureServer(store) {
 	// Listen to the websocket for obi-wan changes.
 	var obiwan_socket = new WebSocket("ws://localhost:4000");
 	obiwan_socket.addEventListener("message", function (event) {
@@ -70,12 +70,5 @@ export function serverMiddleware(store) {
 	}
 
 	update_requests();
-
-	return function(next) {
-		return function(action) {
-			var result = next(action);
-			update_requests();
-			return result;
-		}
-	}
+    store.subscribe(update_requests);
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {obiwanShouldInvestigate} from './data'
+import classNames from 'classnames'
 
 function DarkJedi({jedi, obiwanLocationId}) {
     if (jedi.name) {
@@ -20,13 +21,12 @@ function DarkJedi({jedi, obiwanLocationId}) {
     }
 }
 
-function NavigationButton({disabled, className, onClick}) {
-    var className = disabled
-        ? "css-button-disabled " + className
-        : className;
-
-    return <button className={className} onClick={onClick} disabled={disabled}/>
-}
+const NavigationButton = ({disabled, className, onClick}) => (
+    <button 
+        className={classNames(className, {"css-button-disabled" : disabled})}
+        onClick={onClick}
+        disabled={disabled}/>
+)
 
 class DarkJediList extends React.Component {
 	render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import Root from './root';
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -17,10 +18,10 @@ const finalCreateStore = compose(
 
 const store = finalCreateStore(reducer);
 
-React.render(
+ReactDOM.render(
 	<div>		
 		<Provider store={store}>
-			{() => <Root />}
+			<Root />
 		</Provider>
 		<DebugPanel top right bottom>
 			<DevTools store={store} monitor={LogMonitor}  visibleOnLoad={false}/>

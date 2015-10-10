@@ -2,35 +2,30 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {obiwanShouldInvestigate} from './data'
 
-class DarkJedi extends React.Component {
-	render() {
-		if (this.props.jedi.name) {
-			var style;
-			if (this.props.obiwanLocationId == this.props.jedi.homeworld.id) {
-				style = {color: "red"}
-			} else {
-				style = {}
-			}
-			return <li className="css-slot" style={style}>
-				<h3>{this.props.jedi.name}</h3>
-				<h6>Homeworld: {this.props.jedi.homeworld.name}</h6>
-			</li>
-		} else {
-			return <li className="css-slot">
-			</li>
-		}
-	}
+function DarkJedi({jedi, obiwanLocationId}) {
+    if (jedi.name) {
+        var style;
+        if (obiwanLocationId == jedi.homeworld.id) {
+            style = {color: "red"}
+        } else {
+            style = {}
+        }
+        return <li className="css-slot" style={style}>
+            <h3>{jedi.name}</h3>
+            <h6>Homeworld: {jedi.homeworld.name}</h6>
+        </li>
+    } else {
+        return <li className="css-slot">
+        </li>
+    }
 }
 
-class NavigationButton extends React.Component {
-	render() {
-		var className = this.props.disabled
-			? "css-button-disabled " + this.props.className
-			: this.props.className;
+function NavigationButton({disabled, className, onClick}) {
+    var className = disabled
+        ? "css-button-disabled " + className
+        : className;
 
-
-		return <button className={className} onClick={this.props.onClick} disabled={this.props.disabled}/>
-	}
+    return <button className={className} onClick={onClick} disabled={disabled}/>
 }
 
 class DarkJediList extends React.Component {
@@ -53,8 +48,8 @@ class DarkJediList extends React.Component {
 				{jedis}
 			</ul>
 			<div className="css-scroll-buttons">
-				<NavigationButton className="css-button-up" onClick={this.upClicked.bind(this)} disabled={!can_go_up} />
-				<NavigationButton className="css-button-down" onClick={this.downClicked.bind(this)} disabled={!can_go_down} />
+				<NavigationButton className="css-button-up" onClick={this.props.up_clicked} disabled={!can_go_up} />
+				<NavigationButton className="css-button-down" onClick={this.props.down_clicked} disabled={!can_go_down} />
 			</div>
 		</section>
 	}
@@ -76,5 +71,10 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps)(DarkJediList);
+const ACTIONS = {
+    down_clicked: () => ({type: "DOWN_CLICKED"}),
+    up_clicked: () => ({type: "UP_CLICKED"})
+}
+
+export default connect(mapStateToProps,ACTIONS)(DarkJediList);
 

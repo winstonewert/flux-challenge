@@ -30,11 +30,6 @@ const NavigationButton = ({disabled, className, onClick}) => (
 
 class DarkJediList extends React.Component {
 	render() {
-
-		var jedis = _.map(this.props.dark_jedi, (jedi) => 
-			<DarkJedi key={jedi.id} jedi={jedi} obiwanLocationId={this.props.obiwan_location_id} />
-		);
-
 		var can_go_up = !this.props.obiwan_should_investigate 
 			&& this.props.dark_jedi[0].master
 			&& this.props.dark_jedi[0].master.id;
@@ -45,7 +40,12 @@ class DarkJediList extends React.Component {
 
 		return <section className="css-scrollable-list">
 			<ul className="css-slots">
-				{jedis}
+				{_.map(this.props.dark_jedi, (jedi) => 
+                    <DarkJedi 
+                        key={jedi.id}
+                        jedi={jedi}
+                        obiwanLocationId={this.props.obiwan_location_id} />
+                 )}
 			</ul>
 			<div className="css-scroll-buttons">
 				<NavigationButton className="css-button-up" onClick={this.props.up_clicked} disabled={!can_go_up} />
